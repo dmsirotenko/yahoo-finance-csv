@@ -13,4 +13,14 @@ function mapColumnValues(columns, data = {}) {
     }, {});
 }
 
-module.exports = { sleep, mapColumnValues };
+function extractEarnings(entries, key = 'earnings', separator = ',') {
+    return entries
+        .map(({ date, ...values }) => {
+            const value = values[key]?.raw ?? 0;
+
+            return `${date}:${value}`;
+        })
+        .join(separator);
+}
+
+module.exports = { sleep, mapColumnValues, extractEarnings };

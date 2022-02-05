@@ -1,3 +1,5 @@
+const { extractEarnings } = require('./helpers');
+
 const PARSE_HEADERS = ['symbol'];
 
 const COLUMN_VALUES = [
@@ -23,9 +25,6 @@ const COLUMN_VALUES = [
     { header: 'enterpriseToRevenue', field: 'defaultKeyStatistics.enterpriseToRevenue.raw' },
     { header: 'enterpriseToEbitda', field: 'defaultKeyStatistics.enterpriseToEbitda.raw' },
 
-    { header: 'earningsYearly', field: 'earnings.financialsChart.yearly', formatter: JSON.stringify },
-    { header: 'earningsQuarterly', field: 'earnings.financialsChart.quarterly', formatter: JSON.stringify },
-
     { header: 'targetHighPrice', field: 'financialData.targetHighPrice.raw' },
     { header: 'targetLowPrice', field: 'financialData.targetLowPrice.raw' },
     { header: 'targetMedianPrice', field: 'financialData.targetMedianPrice.raw' },
@@ -37,8 +36,13 @@ const COLUMN_VALUES = [
     { header: 'debtToEquity', field: 'financialData.debtToEquity.raw' },
     { header: 'returnOnAssets', field: 'financialData.returnOnAssets.raw' },
     { header: 'returnOnEquity', field: 'financialData.returnOnEquity.raw' },
-    { header: 'earningsGrowth', field: 'financialData.earningsGrowth.raw' },
     { header: 'revenueGrowth', field: 'financialData.revenueGrowth.raw' },
+    { header: 'earningsGrowth', field: 'financialData.earningsGrowth.raw' },
+
+    { header: 'revenueYearly', field: 'earnings.financialsChart.yearly', formatter: (data) => extractEarnings(data, 'revenue') },
+    { header: 'revenueQuarterly', field: 'earnings.financialsChart.quarterly', formatter: (data) => extractEarnings(data, 'revenue') },
+    { header: 'earningsYearly', field: 'earnings.financialsChart.yearly', formatter: extractEarnings },
+    { header: 'earningsQuarterly', field: 'earnings.financialsChart.quarterly', formatter: extractEarnings },
 ]
 
 const FORMAT_HEADERS = COLUMN_VALUES.map(({ header }) => header);
